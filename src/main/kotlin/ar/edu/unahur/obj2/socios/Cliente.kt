@@ -55,10 +55,33 @@ class Resfriado : EstadoDeAnimo (){
     }
 }
 
-class Barrio {
+abstract  class Barrio {
 
-fun calcularPropina( monto : Int) : Int{
-    return 0
+abstract fun calcularPropina( monto : Int) : Int
+
 }
 
+class LasRosas : Barrio () {
+    override fun calcularPropina(monto: Int): Int {
+        return monto + 50
+    }
+}
+
+class LasLauchas : Barrio () {
+    override fun calcularPropina(monto: Int): Int {
+        return monto / 2
+    }
+}
+
+
+class BarrioVerde : Barrio () {
+    override fun calcularPropina(monto: Int): Int {
+        return monto + 200
+    }
+}
+
+class LasTorres : Barrio () {
+    override fun calcularPropina(monto: Int): Int {
+        return monto
+    }
 }
