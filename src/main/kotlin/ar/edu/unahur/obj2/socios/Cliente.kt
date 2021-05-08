@@ -2,19 +2,9 @@ package ar.edu.unahur.obj2.socios
 
 import kotlin.math.cos
 
-class Cliente ( var estadoDeAnimo: EstadoDeAnimo, var plataEnElBolsillo : Int , var  barrio : Barrio , val propina: Propina ) {
+class Cliente ( var estadoDeAnimo: EstadoDeAnimo, var plataEnElBolsillo : Int , var  barrio : Barrio  ) {
 
-fun simularPropina ( costoPedido: Int) : Int {
-    return propina.calcularPropina( estadoDeAnimo, barrio, costoPedido )
-}
-
-
-}
-
-class Propina ( var estadoDeAnimo: EstadoDeAnimo , var barrio: Barrio) {
-
-    fun calcularPropina( estadoDeAnimo: EstadoDeAnimo , barrio: Barrio , costoPedido: Int) : Int {
-
+    fun simularPropina( costoPedido: Int ):Int {
         return barrio.calcularPropina(estadoDeAnimo.calcularPropina( costoPedido ))
     }
 
@@ -22,7 +12,6 @@ class Propina ( var estadoDeAnimo: EstadoDeAnimo , var barrio: Barrio) {
 
 abstract class EstadoDeAnimo {
 
-  //  abstract fun calcularPropina() : Int
     abstract fun calcularPropina( costoPedido: Int) : Int
 }
 
@@ -84,4 +73,11 @@ class LasTorres : Barrio () {
     override fun calcularPropina(monto: Int): Int {
         return monto
     }
+}
+
+object LasTorres2
+{
+    var a : Int =1
+    var b : Int = 2
+
 }
