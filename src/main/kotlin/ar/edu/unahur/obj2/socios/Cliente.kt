@@ -10,7 +10,7 @@ enum class Animos{
 }
 
 
-open class Cliente ( var estadoDeAnimo: Animos, var plataEnElBolsillo : Int ) {
+open class Cliente ( var estadoDeAnimo: Animos, var plataEnElBolsillo : Int , var miBarrio: Barrio) {
 
 
     fun cambiarEstadoDeAnimo(nuevoEstado: Animos) {
@@ -20,46 +20,54 @@ open class Cliente ( var estadoDeAnimo: Animos, var plataEnElBolsillo : Int ) {
     fun cambiarPlataDelBolsillo(masPlata: Int) {
         plataEnElBolsillo = masPlata
     }
-    
-    fun simularPropina (costoPedido: Int): Int
+
+    fun cambiarDeBarrio(nuevoBarrio: Barrio) {
+        miBarrio = nuevoBarrio
+    }
+
+    fun simularPropinaPorEstado (costoPedido: Int): Int
     {
         return when (estadoDeAnimo) {
-            Animos.FELIZ -> costoPedido * 25 / 100
+            Animos.FELIZ ->  costoPedido * 25 / 100
             Animos.ENOJADO -> 0
             Animos.INDIFERENTE -> plataEnElBolsillo
             Animos.RESFRIADO -> costoPedido
         }
     }
-}
 
-interface Barrio {
-   fun calcularPropina( monto : Int) : Int
-}
-
-class ClienteLasRosas(estadoDeAnimo: Animos, plataEnElBolsillo: Int) : Cliente (estadoDeAnimo, plataEnElBolsillo), Barrio {
-
-    override fun calcularPropina(monto: Int): Int {
-        return this.simularPropina(monto) + 50
+    fun propinaMasBarrio(costoPedido: Int) :Int {
+        return miBarrio.calcularPropina( this.simularPropinaPorEstado(costoPedido) )
     }
 }
 
-class ClienteLasLauchas(estadoDeAnimo: Animos, plataEnElBolsillo: Int) : Cliente (estadoDeAnimo, plataEnElBolsillo), Barrio {
+abstract class Barrio {
+   abstract fun calcularPropina( monto : Int) : Int
+}
+
+class LasRosas() : Barrio() {
 
     override fun calcularPropina(monto: Int): Int {
-        return this.simularPropina(monto) / 2
+        return monto + 50
     }
 }
 
-class ClienteLasTorres(estadoDeAnimo: Animos, plataEnElBolsillo: Int) : Cliente (estadoDeAnimo, plataEnElBolsillo), Barrio {
+class LasLauchas : Barrio() {
 
     override fun calcularPropina(monto: Int): Int {
-        return this.simularPropina(monto)
+        return (monto) / 2
     }
 }
 
-class ClienteBarrioVerde(estadoDeAnimo: Animos, plataEnElBolsillo: Int) : Cliente (estadoDeAnimo, plataEnElBolsillo), Barrio {
+class LasTorres : Barrio() {
 
     override fun calcularPropina(monto: Int): Int {
-        return this.simularPropina(monto) + 200
+        return (monto)
+    }
+}
+
+class BarrioVerde:Barrio() {
+
+    override fun calcularPropina(monto: Int): Int {
+        return (monto) + 200
     }
 }

@@ -7,72 +7,67 @@ class ClienteTest : DescribeSpec({
 
   describe("Unos clients") {
     it("Enojado") {
-      var Juan = Cliente(Animos.ENOJADO,1000)
+      var Juan = Cliente(Animos.ENOJADO,1000, LasRosas())
 
-      Juan.simularPropina(200).shouldBe(0)
+      Juan.simularPropinaPorEstado(200).shouldBe(0)
     }
 
     it("Feliz") {
-      var Marcela = Cliente(Animos.FELIZ, 300)
-      Marcela.simularPropina(3500).shouldBe(875)
+      var Marcela = Cliente(Animos.FELIZ, 300, LasRosas())
+      Marcela.simularPropinaPorEstado(3500).shouldBe(875)
     }
 
     it("Indiferente") {
-      var Roberto = Cliente(Animos.INDIFERENTE, 700)
-      Roberto.simularPropina(8765).shouldBe(700)
+      var Roberto = Cliente(Animos.INDIFERENTE, 700, LasRosas())
+      Roberto.simularPropinaPorEstado(8765).shouldBe(700)
     }
 
     it("Resfriado") {
-      var Santiago = Cliente(Animos.RESFRIADO, 450)
-      Santiago.simularPropina(750).shouldBe(750)
+      var Santiago = Cliente(Animos.RESFRIADO, 450, LasRosas())
+      Santiago.simularPropinaPorEstado(750).shouldBe(750)
     }
   }
 
   describe("Clientes de Barrio") {
     describe("Un/a cliente resfriado de las rosas") {
 
+      var matias  = Cliente(Animos.RESFRIADO,1000, LasRosas())
 
-      var matias  = ClienteLasRosas(Animos.RESFRIADO,1000)
-
-      matias.calcularPropina(1000).shouldBe(1050)
-
+      matias.propinaMasBarrio(1000).shouldBe(1050)
 
     }
 
     describe("Un/a cliente resfriado en las lauchas") {
 
+      var matias  = Cliente(Animos.RESFRIADO,1000, LasLauchas())
 
-      var matias  = ClienteLasLauchas(Animos.RESFRIADO,1000)
-
-      matias.calcularPropina(1000).shouldBe(500)
-
+      matias.propinaMasBarrio(1000).shouldBe(500)
 
     }
 
     describe("Un/a cliente feliz en las rosas") {
 
+      var matias  = Cliente(Animos.FELIZ,1000, LasRosas())
 
-
-      var matias  = ClienteLasRosas(Animos.FELIZ,1000)
-
-      matias.calcularPropina(1000).shouldBe(300)
-
-
+      matias.propinaMasBarrio(1000).shouldBe(300)
     }
 
     describe("Un/a cliente indiferente en las torres") {
 
-      var Carlos  = ClienteLasTorres(Animos.INDIFERENTE, 950)
+      var Carlos  = Cliente(Animos.INDIFERENTE, 950, LasTorres())
 
-      Carlos.calcularPropina(75000).shouldBe(950)
+      Carlos.propinaMasBarrio(75000).shouldBe(950)
 
+      Carlos.cambiarDeBarrio(LasRosas())
+
+      Carlos.propinaMasBarrio(75000).shouldBe(1000)
 
     }
 
     describe("Un/a cliente enojado en barrio verde") {
-      var Carlos  = ClienteBarrioVerde(Animos.ENOJADO, 400)
+      var Carlos  = Cliente(Animos.ENOJADO, 400, BarrioVerde())
 
-      Carlos.calcularPropina(5460).shouldBe(200)
+      Carlos.propinaMasBarrio(5460).shouldBe(200)
     }
 
   }
