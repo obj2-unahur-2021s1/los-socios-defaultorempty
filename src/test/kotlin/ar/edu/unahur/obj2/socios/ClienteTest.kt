@@ -5,56 +5,86 @@ import io.kotest.matchers.shouldBe
 
 class ClienteTest : DescribeSpec({
 
-  describe("Un/a cliente") {
 
 
-    var matias  = Cliente(Resfriado(),1000,LasLauchas())
+  describe("Unos clients") {
 
-    matias.simularPropina(1000).shouldBe(500)
+    it("Enojado") {
+      clienteSantiago.cambiarEstadoDeAnimo(Animos.ENOJADO)
+      clienteSantiago.cambiarPlataDelBolsillo(1000)
 
+      clienteSantiago.simularPropinaPorEstado(200).shouldBe(0)
+    }
 
+    it("Feliz") {
+      clienteSantiago.cambiarEstadoDeAnimo(Animos.FELIZ)
+      clienteSantiago.cambiarPlataDelBolsillo(300)
+
+      clienteSantiago.simularPropinaPorEstado(3500).shouldBe(875)
+    }
+
+    it("Indiferente") {
+      clienteSantiago.cambiarEstadoDeAnimo(Animos.INDIFERENTE)
+      clienteSantiago.cambiarPlataDelBolsillo(700)
+
+      clienteSantiago.simularPropinaPorEstado(8765).shouldBe(700)
+    }
+
+    it("Resfriado") {
+      clienteSantiago.cambiarEstadoDeAnimo(Animos.RESFRIADO)
+      clienteSantiago.cambiarPlataDelBolsillo(450)
+
+      clienteSantiago.simularPropinaPorEstado(750).shouldBe(750)
+    }
   }
 
-  describe("Un/a cliente resfriado en las lauchas") {
+  describe("Clientes de Barrio") {
+    describe("Un/a cliente resfriado de las rosas") {
+      clienteSantiago.cambiarEstadoDeAnimo(Animos.RESFRIADO)
+      clienteSantiago.cambiarPlataDelBolsillo(1000)
+      clienteSantiago.cambiarDeBarrio(LasRosas())
 
+      clienteSantiago.propinaMasBarrio(1000).shouldBe(1050)
 
-    var matias  = Cliente(Resfriado(),1000,LasLauchas())
+    }
 
-    matias.simularPropina(1000).shouldBe(500)
+    describe("Un/a cliente resfriado en las lauchas") {
+      clienteSantiago.cambiarEstadoDeAnimo(Animos.RESFRIADO)
+      clienteSantiago.cambiarPlataDelBolsillo(1000)
+      clienteSantiago.cambiarDeBarrio(LasLauchas())
 
+      clienteSantiago.propinaMasBarrio(1000).shouldBe(500)
 
-  }
+    }
 
-  describe("Un/a cliente feliz en las rosas") {
+    describe("Un/a cliente feliz en las rosas") {
+      clienteSantiago.cambiarEstadoDeAnimo(Animos.FELIZ)
+      clienteSantiago.cambiarPlataDelBolsillo(1000)
+      clienteSantiago.cambiarDeBarrio(LasRosas())
 
+      clienteSantiago.propinaMasBarrio(1000).shouldBe(300)
+    }
 
-    var matias  = Cliente(Feliz(),1000,LasRosas())
+    describe("Un/a cliente indiferente en las torres") {
+      clienteSantiago.cambiarEstadoDeAnimo(Animos.INDIFERENTE)
+      clienteSantiago.cambiarPlataDelBolsillo(950)
+      clienteSantiago.cambiarDeBarrio(LasTorres())
 
-    //25% sobre el pedido + 50 de fijo  = 300
-    matias.simularPropina(1000).shouldBe(300)
+      clienteSantiago.propinaMasBarrio(75000).shouldBe(950)
 
+      clienteSantiago.cambiarDeBarrio(LasRosas())
 
-  }
+      clienteSantiago.propinaMasBarrio(75000).shouldBe(1000)
 
-  describe("Un/a cliente indiferente en las torres") {
+    }
 
+    describe("Un/a cliente enojado en barrio verde") {
+      clienteSantiago.cambiarEstadoDeAnimo(Animos.ENOJADO)
+      clienteSantiago.cambiarPlataDelBolsillo(400)
+      clienteSantiago.cambiarDeBarrio(BarrioVerde())
 
-    var matias  = Cliente(Indiferente(1000),1000,LasTorres())
-
-    //da lo que tenga en el bolsillo + no modifica el barrio   = 1000
-    matias.simularPropina(1000).shouldBe(1000)
-
-
-  }
-
-  describe("Un/a cliente enojado en barrio verde") {
-
-
-    var matias  = Cliente(Enojado(),1000,BarrioVerde())
-
-    //no da propina + 200 minimo por el barrio   = 1000
-    matias.simularPropina(1000).shouldBe(200)
-
+      clienteSantiago.propinaMasBarrio(5460).shouldBe(200)
+    }
 
   }
 

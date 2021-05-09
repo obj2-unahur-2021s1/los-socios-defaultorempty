@@ -2,82 +2,77 @@ package ar.edu.unahur.obj2.socios
 
 import kotlin.math.cos
 
-class Cliente ( var estadoDeAnimo: EstadoDeAnimo, var plataEnElBolsillo : Int , var  barrio : Barrio  ) {
+enum class Animos{
+    FELIZ,
+    ENOJADO,
+    INDIFERENTE,
+    RESFRIADO
+}
 
-    fun simularPropina( costoPedido: Int ):Int {
-        return barrio.calcularPropina(estadoDeAnimo.calcularPropina( costoPedido ))
+
+abstract class Cliente () {
+    var estadoDeAnimo: Animos = Animos.INDIFERENTE
+    var plataEnElBolsillo: Int = 0
+    var miBarrio: Barrio = BarrioVerde()
+
+    fun cambiarEstadoDeAnimo(nuevoEstado: Animos) {
+        estadoDeAnimo = nuevoEstado
     }
 
-}
-
-abstract class EstadoDeAnimo {
-
-    abstract fun calcularPropina( costoPedido: Int) : Int
-}
-
-class Enojado : EstadoDeAnimo (){
-
-   override fun calcularPropina( costoPedido: Int ) :Int {
-       return 0
-   }
-
-}
-
-class Feliz : EstadoDeAnimo() {
-
-    override fun calcularPropina( costoPedido: Int) :Int {
-        return costoPedido * 25 / 100
+    fun cambiarPlataDelBolsillo(masPlata: Int) {
+        plataEnElBolsillo = masPlata
     }
-}
 
-class Indiferente( var plataEnElBolsillo : Int) : EstadoDeAnimo(){
-
-    override fun calcularPropina( costoPedido: Int ) :Int {
-        return plataEnElBolsillo
+    fun cambiarDeBarrio(nuevoBarrio: Barrio) {
+        miBarrio = nuevoBarrio
     }
-}
 
-class Resfriado : EstadoDeAnimo (){
+    fun simularPropinaPorEstado (costoPedido: Int): Int
+    {
+        return when (estadoDeAnimo) {
+            Animos.FELIZ ->  costoPedido * 25 / 100
+            Animos.ENOJADO -> 0
+            Animos.INDIFERENTE -> plataEnElBolsillo
+            Animos.RESFRIADO -> costoPedido
+        }
+    }
 
-    override fun calcularPropina( costoPedido: Int ) :Int {
-        return costoPedido * 100 / 100
+    fun propinaMasBarrio(costoPedido: Int) :Int {
+        return miBarrio.calcularPropina( this.simularPropinaPorEstado(costoPedido) )
     }
 }
 
-abstract  class Barrio {
-
-abstract fun calcularPropina( monto : Int) : Int
-
+abstract class Barrio {
+   abstract fun calcularPropina( monto : Int) : Int
 }
 
-class LasRosas : Barrio () {
+class LasRosas() : Barrio() {
+
     override fun calcularPropina(monto: Int): Int {
         return monto + 50
     }
 }
 
-class LasLauchas : Barrio () {
+class LasLauchas : Barrio() {
+
     override fun calcularPropina(monto: Int): Int {
-        return monto / 2
+        return (monto) / 2
     }
 }
 
+class LasTorres : Barrio() {
 
-class BarrioVerde : Barrio () {
     override fun calcularPropina(monto: Int): Int {
-        return monto + 200
+        return (monto)
     }
 }
 
-class LasTorres : Barrio () {
+class BarrioVerde:Barrio() {
+
     override fun calcularPropina(monto: Int): Int {
-        return monto
+        return (monto) + 200
     }
 }
 
-object LasTorres2
-{
-    var a : Int =1
-    var b : Int = 2
-
-}
+// Objeto Singleton Cliente
+object clienteSantiago: Cliente()
