@@ -5,69 +5,85 @@ import io.kotest.matchers.shouldBe
 
 class ClienteTest : DescribeSpec({
 
-  describe("Unos clients") {
-    it("Enojado") {
-      var Juan = Cliente(Animos.ENOJADO,1000, LasRosas())
 
-      Juan.simularPropinaPorEstado(200).shouldBe(0)
+
+  describe("Unos clients") {
+
+    it("Enojado") {
+      clienteSantiago.cambiarEstadoDeAnimo(Animos.ENOJADO)
+      clienteSantiago.cambiarPlataDelBolsillo(1000)
+
+      clienteSantiago.simularPropinaPorEstado(200).shouldBe(0)
     }
 
     it("Feliz") {
-      var Marcela = Cliente(Animos.FELIZ, 300, LasRosas())
-      Marcela.simularPropinaPorEstado(3500).shouldBe(875)
+      clienteSantiago.cambiarEstadoDeAnimo(Animos.FELIZ)
+      clienteSantiago.cambiarPlataDelBolsillo(300)
+
+      clienteSantiago.simularPropinaPorEstado(3500).shouldBe(875)
     }
 
     it("Indiferente") {
-      var Roberto = Cliente(Animos.INDIFERENTE, 700, LasRosas())
-      Roberto.simularPropinaPorEstado(8765).shouldBe(700)
+      clienteSantiago.cambiarEstadoDeAnimo(Animos.INDIFERENTE)
+      clienteSantiago.cambiarPlataDelBolsillo(700)
+
+      clienteSantiago.simularPropinaPorEstado(8765).shouldBe(700)
     }
 
     it("Resfriado") {
-      var Santiago = Cliente(Animos.RESFRIADO, 450, LasRosas())
-      Santiago.simularPropinaPorEstado(750).shouldBe(750)
+      clienteSantiago.cambiarEstadoDeAnimo(Animos.RESFRIADO)
+      clienteSantiago.cambiarPlataDelBolsillo(450)
+
+      clienteSantiago.simularPropinaPorEstado(750).shouldBe(750)
     }
   }
 
   describe("Clientes de Barrio") {
     describe("Un/a cliente resfriado de las rosas") {
+      clienteSantiago.cambiarEstadoDeAnimo(Animos.RESFRIADO)
+      clienteSantiago.cambiarPlataDelBolsillo(1000)
+      clienteSantiago.cambiarDeBarrio(LasRosas())
 
-      var matias  = Cliente(Animos.RESFRIADO,1000, LasRosas())
-
-      matias.propinaMasBarrio(1000).shouldBe(1050)
+      clienteSantiago.propinaMasBarrio(1000).shouldBe(1050)
 
     }
 
     describe("Un/a cliente resfriado en las lauchas") {
+      clienteSantiago.cambiarEstadoDeAnimo(Animos.RESFRIADO)
+      clienteSantiago.cambiarPlataDelBolsillo(1000)
+      clienteSantiago.cambiarDeBarrio(LasLauchas())
 
-      var matias  = Cliente(Animos.RESFRIADO,1000, LasLauchas())
-
-      matias.propinaMasBarrio(1000).shouldBe(500)
+      clienteSantiago.propinaMasBarrio(1000).shouldBe(500)
 
     }
 
     describe("Un/a cliente feliz en las rosas") {
+      clienteSantiago.cambiarEstadoDeAnimo(Animos.FELIZ)
+      clienteSantiago.cambiarPlataDelBolsillo(1000)
+      clienteSantiago.cambiarDeBarrio(LasRosas())
 
-      var matias  = Cliente(Animos.FELIZ,1000, LasRosas())
-
-      matias.propinaMasBarrio(1000).shouldBe(300)
+      clienteSantiago.propinaMasBarrio(1000).shouldBe(300)
     }
 
     describe("Un/a cliente indiferente en las torres") {
+      clienteSantiago.cambiarEstadoDeAnimo(Animos.INDIFERENTE)
+      clienteSantiago.cambiarPlataDelBolsillo(950)
+      clienteSantiago.cambiarDeBarrio(LasTorres())
 
-      var Carlos  = Cliente(Animos.INDIFERENTE, 950, LasTorres())
+      clienteSantiago.propinaMasBarrio(75000).shouldBe(950)
 
-      Carlos.propinaMasBarrio(75000).shouldBe(950)
+      clienteSantiago.cambiarDeBarrio(LasRosas())
 
-      Carlos.cambiarDeBarrio(LasRosas())
-
-      Carlos.propinaMasBarrio(75000).shouldBe(1000)
+      clienteSantiago.propinaMasBarrio(75000).shouldBe(1000)
 
     }
 
     describe("Un/a cliente enojado en barrio verde") {
-      var Carlos  = Cliente(Animos.ENOJADO, 400, BarrioVerde())
+      clienteSantiago.cambiarEstadoDeAnimo(Animos.ENOJADO)
+      clienteSantiago.cambiarPlataDelBolsillo(400)
+      clienteSantiago.cambiarDeBarrio(BarrioVerde())
 
-      Carlos.propinaMasBarrio(5460).shouldBe(200)
+      clienteSantiago.propinaMasBarrio(5460).shouldBe(200)
     }
 
   }

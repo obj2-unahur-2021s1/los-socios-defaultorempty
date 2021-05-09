@@ -10,8 +10,10 @@ enum class Animos{
 }
 
 
-open class Cliente ( var estadoDeAnimo: Animos, var plataEnElBolsillo : Int , var miBarrio: Barrio) {
-
+abstract class Cliente () {
+    var estadoDeAnimo: Animos = Animos.INDIFERENTE
+    var plataEnElBolsillo: Int = 0
+    var miBarrio: Barrio = BarrioVerde()
 
     fun cambiarEstadoDeAnimo(nuevoEstado: Animos) {
         estadoDeAnimo = nuevoEstado
@@ -71,3 +73,6 @@ class BarrioVerde:Barrio() {
         return (monto) + 200
     }
 }
+
+// Objeto Singleton Cliente
+object clienteSantiago: Cliente()
