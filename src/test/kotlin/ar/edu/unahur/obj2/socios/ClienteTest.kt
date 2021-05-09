@@ -5,56 +5,75 @@ import io.kotest.matchers.shouldBe
 
 class ClienteTest : DescribeSpec({
 
-  describe("Un/a cliente") {
+  describe("Unos clients") {
+    it("Enojado") {
+      var Juan = Cliente(Animos.ENOJADO,1000)
 
+      Juan.simularPropina(200).shouldBe(0)
+    }
 
-    var matias  = Cliente(Resfriado(),1000,LasLauchas(), Propina(Resfriado(),LasLauchas()))
+    it("Feliz") {
+      var Marcela = Cliente(Animos.FELIZ, 300)
+      Marcela.simularPropina(3500).shouldBe(875)
+    }
 
-    matias.simularPropina(1000).shouldBe(500)
+    it("Indiferente") {
+      var Roberto = Cliente(Animos.INDIFERENTE, 700)
+      Roberto.simularPropina(8765).shouldBe(700)
+    }
 
-
+    it("Resfriado") {
+      var Santiago = Cliente(Animos.RESFRIADO, 450)
+      Santiago.simularPropina(750).shouldBe(750)
+    }
   }
 
-  describe("Un/a cliente resfriado en las lauchas") {
+  describe("Clientes de Barrio") {
+    describe("Un/a cliente resfriado de las rosas") {
 
 
-    var matias  = Cliente(Resfriado(),1000,LasLauchas(), Propina(Resfriado(),LasLauchas()))
+      var matias  = ClienteLasRosas(Animos.RESFRIADO,1000)
 
-    matias.simularPropina(1000).shouldBe(500)
-
-
-  }
-
-  describe("Un/a cliente feliz en las rosas") {
+      matias.calcularPropina(1000).shouldBe(1050)
 
 
-    var matias  = Cliente(Feliz(),1000,LasRosas(), Propina(Feliz(),LasRosas()))
+    }
 
-    //25% sobre el pedido + 50 de fijo  = 300
-    matias.simularPropina(1000).shouldBe(300)
-
-
-  }
-
-  describe("Un/a cliente indiferente en las torres") {
+    describe("Un/a cliente resfriado en las lauchas") {
 
 
-    var matias  = Cliente(Indiferente(1000),1000,LasTorres(), Propina(Indiferente(1000),LasTorres()))
+      var matias  = ClienteLasLauchas(Animos.RESFRIADO,1000)
 
-    //da lo que tenga en el bolsillo + no modifica el barrio   = 1000
-    matias.simularPropina(1000).shouldBe(1000)
-
-
-  }
-
-  describe("Un/a cliente enojado en barrio verde") {
+      matias.calcularPropina(1000).shouldBe(500)
 
 
-    var matias  = Cliente(Enojado(),1000,BarrioVerde(), Propina(Enojado(),BarrioVerde()))
+    }
 
-    //no da propina + 200 minimo por el barrio   = 1000
-    matias.simularPropina(1000).shouldBe(200)
+    describe("Un/a cliente feliz en las rosas") {
 
+
+
+      var matias  = ClienteLasRosas(Animos.FELIZ,1000)
+
+      matias.calcularPropina(1000).shouldBe(300)
+
+
+    }
+
+    describe("Un/a cliente indiferente en las torres") {
+
+      var Carlos  = ClienteLasTorres(Animos.INDIFERENTE, 950)
+
+      Carlos.calcularPropina(75000).shouldBe(950)
+
+
+    }
+
+    describe("Un/a cliente enojado en barrio verde") {
+      var Carlos  = ClienteBarrioVerde(Animos.ENOJADO, 400)
+
+      Carlos.calcularPropina(5460).shouldBe(200)
+    }
 
   }
 
