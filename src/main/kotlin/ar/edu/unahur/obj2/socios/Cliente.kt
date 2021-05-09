@@ -13,6 +13,14 @@ enum class Animos{
 open class Cliente ( var estadoDeAnimo: Animos, var plataEnElBolsillo : Int ) {
 
 
+    fun cambiarEstadoDeAnimo(nuevoEstado: Animos) {
+        estadoDeAnimo = nuevoEstado
+    }
+
+    fun cambiarPlataDelBolsillo(masPlata: Int) {
+        plataEnElBolsillo = masPlata
+    }
+    
     fun simularPropina (costoPedido: Int): Int
     {
         return when (estadoDeAnimo) {
